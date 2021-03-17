@@ -1,18 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LoadLevelByTimer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // время до загрузки уровня
+    public float delay = 3;
+    // имя загружаемого уровня
+    public string levelName;
+    // типа IEnumerator из простр. имен System.Collections.
+    // для поддержки функцией Start механизма сопрограмм
+    public IEnumerator Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // задержка на заданное число секунд
+        yield return new WaitForSeconds(delay);
+        // загрузка уровня с указанным именем
+        SceneManager.LoadScene(levelName);
     }
 }

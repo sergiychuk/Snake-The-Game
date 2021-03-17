@@ -1,18 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class LookAt : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // цель, на которую должен смотреть объект
+    public Transform target;
+    public void Update()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (target != null)
+        {
+            // Смотрим всегда на цель
+            transform.LookAt(target);
+        }
     }
 }
