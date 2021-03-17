@@ -1,10 +1,11 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - CameraManager
     - FPS_Counter
+    - FloorManager
     - Game
     - LoadLevelByTimer
-    - LookAt
     - MainMenu
     - Player
     Unity.Rider.Editor.dll:
@@ -50,9 +51,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11834}
     - Class: 114
-      Script: {instanceID: 12706}
+      Script: {instanceID: 12708}
     - Class: 114
-      Script: {instanceID: 13058}
+      Script: {instanceID: 13060}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -105,15 +106,17 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11880}
     - Class: 114
-      Script: {instanceID: 11928}
-    - Class: 114
       Script: {instanceID: 12010}
     - Class: 114
-      Script: {instanceID: 12706}
+      Script: {instanceID: 12588}
     - Class: 114
-      Script: {instanceID: 13058}
+      Script: {instanceID: 12708}
     - Class: 114
-      Script: {instanceID: 17572}
+      Script: {instanceID: 13060}
+    - Class: 114
+      Script: {instanceID: 13998}
+    - Class: 114
+      Script: {instanceID: 16802}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -154,7 +157,7 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 12936}
+      Script: {instanceID: 12938}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -374,12 +377,6 @@ ScriptsOnlyBuild:
     className: Selectable
   - hash:
       serializedVersion: 2
-      Hash: 0d85f4fda1e0e70cd92c084d12f05cdc
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: LookAt
-  - hash:
-      serializedVersion: 2
       Hash: 74539bf20ed0f056918fe4b7079200d1
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -486,6 +483,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: TimelineAsset
+  - hash:
+      serializedVersion: 2
+      Hash: efd6727aaa137007c96d7472e9d82aae
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FPS_Counter
   - hash:
       serializedVersion: 2
       Hash: 6939772cb3ce775a8e8d99f332534491
@@ -626,10 +629,16 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   - hash:
       serializedVersion: 2
-      Hash: ff5e7d4bdc2ca19461206cfbe69c3d47
+      Hash: 8d66236592fb8f389fc18d28d42d1ccc
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: FPS_Counter
+    className: CameraManager
+  - hash:
+      serializedVersion: 2
+      Hash: e582876392500c1296790e5171184c1d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FloorManager
   platform: 19
   scenePathNames:
   - Assets/Scenes/MainMenu.unity

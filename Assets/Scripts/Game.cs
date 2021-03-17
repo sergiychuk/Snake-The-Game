@@ -1,38 +1,79 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Game : MonoBehaviour
 {
+    [SerializeField]
+    [Tooltip("Набранные очки")]
+    public int points;
+
+    [SerializeField]
+    [Tooltip("Обьект интерфейса где отображается количество очок")]
+    private GameObject scoreText;
+
+    [Space(30)]
+
+    [SerializeField]
+    [Tooltip("Показать FPS?")]
+    public bool showFPS = true;
+
+    [SerializeField]
+    [Tooltip("Показать FPS")]
+    private GameObject fps_text;
+
+    [Space(30)]
+
+    [SerializeField]
+    [Tooltip("Префаб головы змеи")]
+    private GameObject snakeHeadPrefab;
+
+    [SerializeField]
+    [Tooltip("Стартовая позиция головы змеи после загрузки уровня")]
+    private Vector3 snakeHeadStartPos = new Vector3(2.5f, 1.0f, -27.5f);
+
+    [Space(30)]
+
     // материал стен
     public Material wallMaterial;
-    // набранные очки
-    public static int points;
+    
     // количество стен в уровне
     public int countWals = 10;
-    private string _pointsString;
-    private int _lastPonts = -1;
+    
     // генерируем уровень при загрузке сцены
     public void Awake()
     {
         // обнуляем очки
         points = 0;
+
         // генерируем уровень
-        GenerateLevel();
+        //GenerateLevel();
+    }
+
+    public void Start()
+    {
+        // Спавним в начале голову без хвоста в начальной позиции
+        CreateSnakeHead();
     }
 
     public void Update()
     {
-        // обновление текста очков только при их изменении
-        if (_lastPonts == points) return;
-        _lastPonts = points;
-        // очки в формате четырех цифр, начинающихся с нулей
-        _pointsString = "Score: " + points.ToString("0000");
-    }
-    // отрисовка набранных очков
+        ShowScore();
 
-    public void OnGUI()
+        ShowFPS();
+    }
+
+    // отрисовка FPS
+    public void ShowFPS()
     {
-        GUI.color = Color.yellow;
-        GUI.Label(new Rect(20, 20, 200, 20), _pointsString ?? "");
+        float currentFPS = (int)(1f / Time.unscaledDeltaTime);
+        fps_text.GetComponent<Text>().text = "FPS: " + currentFPS.ToString();
+        fps_text.SetActive(showFPS);
+    }
+
+    // отрисовка набранных очков
+    public void ShowScore()
+    {
+        scoreText.GetComponent<Text>().text = "Score: " + points.ToString();
     }
 
     // функция генерации уровня
@@ -58,4 +99,12 @@ public class Game : MonoBehaviour
             wall.GetComponent<Renderer>().material = wallMaterial;
         }
     }
+
+    // функция создания головы змеи сразу после запуска игры
+    private void CreateSnakeHead()
+    {
+        GameObject snakeHead = Instantiate(snakeHeadPrefab, snakeHeadStartPos, Quaternion.identity);
+        snakeHead.name = "Head_Cube";
+    }
+
 }
