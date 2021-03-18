@@ -142,11 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec08d645f5705cc4ea64368303296b9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7.5
-  createTail: 0
+  speed: 0
+  canMove: 0
+  lastSnakeObject: {fileID: 0}
   tailPrefab: {fileID: 9222089951711053119, guid: 49457c696ebbf054694de413ad5f3276,
     type: 3}
   ChangeMoveDir: 0
-  headIsMoving: 0
-  headIsMoved: 1
-  targetMovePosition: {x: 0, y: 0, z: 0}

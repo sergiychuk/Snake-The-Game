@@ -1,8 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
+    //[SerializeField]
+    //[Tooltip("Обьект интерфейса где отображается режим качества картинки")]
+    //private GameObject qualityText;
+
+    //[Space(30)]
+
     [SerializeField]
     [Tooltip("Набранные очки")]
     public int points;
@@ -38,10 +46,14 @@ public class Game : MonoBehaviour
     
     // количество стен в уровне
     public int countWals = 10;
-    
+
+    float maxFPS = 0;
+
     // генерируем уровень при загрузке сцены
     public void Awake()
     {
+        SetQualityMode(0);
+
         // обнуляем очки
         points = 0;
 
@@ -59,13 +71,18 @@ public class Game : MonoBehaviour
     {
         ShowScore();
         ShowFPS();
+        InputControlls();
     }
 
     // отрисовка FPS
     public void ShowFPS()
     {
         float currentFPS = (int)(1f / Time.unscaledDeltaTime);
-        fps_text.GetComponent<Text>().text = "FPS: " + currentFPS.ToString();
+        if(currentFPS > maxFPS)
+        {
+            maxFPS = currentFPS;
+        }
+        fps_text.GetComponent<Text>().text = "FPS: " + currentFPS.ToString() + "\nMax: " + maxFPS.ToString();
         fps_text.SetActive(showFPS);
     }
 
@@ -104,6 +121,49 @@ public class Game : MonoBehaviour
     {
         GameObject snakeHead = Instantiate(snakeHeadPrefab, snakeHeadStartPos, Quaternion.identity);
         snakeHead.name = "Head_Cube";
+    }
+    public void SetQualityMode(int mode)
+    {
+        QualitySettings.SetQualityLevel(mode);
+    }
+
+    public void InputControlls()
+    {
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            showFPS = !showFPS;
+        }
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            RestartLevel();
+        }
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            //Debug.Log(SceneManager.sceneCount);
+        }
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            //Debug.Log("Screen Width : " + Screen.);
+        }
+        if (Input.GetKeyUp(KeyCode.F3))
+        {
+            //SetQualityMode(1);
+        }
+        
+        if (Input.GetKeyUp(KeyCode.F5))
+        {
+            //SetQualityMode(4);
+        }
+        if (Input.GetKeyUp(KeyCode.F6))
+        {
+            //SetQualityMode(5);
+        }
+    }
+
+    //Restarts the level
+    void RestartLevel() 
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }

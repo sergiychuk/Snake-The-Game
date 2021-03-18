@@ -8,6 +8,8 @@ TagManager:
   - Head
   - Tail
   - Wall
+  - Food
+  - GameManager
   layers:
   - Default
   - TransparentFX

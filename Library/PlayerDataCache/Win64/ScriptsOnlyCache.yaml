@@ -9,6 +9,15 @@ ScriptsOnlyBuild:
     - Tail
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
+    UnityEditor.Graphs.dll:
+    - UnityEditor.Graphs.AnimationBlendTree.Graph
+    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnimatorStateTransitionInspector
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
+    - UnityEditor.Graphs.AnimationStateMachine.Graph
+    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateMachineNode
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -42,17 +51,17 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11250}
+      Script: {instanceID: 11248}
     - Class: 114
-      Script: {instanceID: 11408}
+      Script: {instanceID: 11406}
     - Class: 114
-      Script: {instanceID: 11778}
+      Script: {instanceID: 11776}
     - Class: 114
-      Script: {instanceID: 11836}
+      Script: {instanceID: 11834}
     - Class: 114
-      Script: {instanceID: 12710}
+      Script: {instanceID: 12706}
     - Class: 114
-      Script: {instanceID: 13064}
+      Script: {instanceID: 13060}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -99,25 +108,25 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11250}
+      Script: {instanceID: 11248}
     - Class: 114
-      Script: {instanceID: 11408}
+      Script: {instanceID: 11406}
     - Class: 114
-      Script: {instanceID: 11836}
+      Script: {instanceID: 11834}
     - Class: 114
-      Script: {instanceID: 11842}
+      Script: {instanceID: 11840}
     - Class: 114
-      Script: {instanceID: 11884}
+      Script: {instanceID: 11882}
     - Class: 114
-      Script: {instanceID: 12012}
+      Script: {instanceID: 12010}
     - Class: 114
-      Script: {instanceID: 12230}
+      Script: {instanceID: 12226}
     - Class: 114
-      Script: {instanceID: 12710}
+      Script: {instanceID: 12706}
     - Class: 114
-      Script: {instanceID: 12722}
+      Script: {instanceID: 12718}
     - Class: 114
-      Script: {instanceID: 13064}
+      Script: {instanceID: 13060}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -335,7 +344,7 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAsset
   - hash:
       serializedVersion: 2
-      Hash: 95cd805d0cc569d71c8d91ed527bf305
+      Hash: 8b30e496055e37f319b02bc749a068d7
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Player

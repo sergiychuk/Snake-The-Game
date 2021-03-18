@@ -8,11 +8,18 @@ public class Player : MonoBehaviour
     [Tooltip("Скорость перемещения головы")]
     private float speed = 8.0f;
 
+    [SerializeField]
+    [Tooltip("Разрешение на перемещение")]
+    private bool canMove = false;
+
     [Space(30)]
 
     [SerializeField]
-    [Tooltip("Создать хвост при первой загрузке?")]
+    [Tooltip("Создать хвост?")]
+    public Transform lastSnakeObject;
     private bool createTail = false;
+    private bool tailCreated = false;
+
 
     [SerializeField]
     [Tooltip("Префаб хвоста")]
@@ -51,8 +58,20 @@ public class Player : MonoBehaviour
     {
         InputControlls();
 
+        if (createTail)
+        {
+            CreateTail();
+            createTail = false;
+        }
+
+        if (canMove)
+        {
+            speed = 8.0f;
+        }
+        
+
         //Узнаем следующую позицию куда двигать, если стоим на точке и не двигаемся
-        if(headIsMoved && !headIsMoving)
+        if (headIsMoved && !headIsMoving)
         {
             if (ChangeMoveDir == 1)
             {
@@ -109,6 +128,10 @@ public class Player : MonoBehaviour
 
                 headIsMoved = true;
                 headIsMoving = false;
+                if (!canMove)
+                {
+                    speed = 0.0f;
+                }
             }
         }
     }
@@ -137,7 +160,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            
+            canMove = !canMove;
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
@@ -147,38 +170,94 @@ public class Player : MonoBehaviour
             headIsMoved = true;
             headIsMoving = false;
         }
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+            createTail = true;
+        }
     }
 
     // Создает хвост
     public void CreateTail()
     {
-        // current - текущая цель элемента хвоста, начинаем с головы
-        Transform current = transform;
-        for (int i = 0; i < 3; i++)
+        if (!tailCreated)
         {
+            // current - текущая цель элемента хвоста, начинаем с головы
+            lastSnakeObject = transform;
+
             // помещаем "хвост" за "хозяином"
-            Vector3 nextTailPos = new Vector3(current.transform.position.x, current.transform.position.y, current.transform.position.z - 5.0f);
+            Vector3 nextTailPos = new Vector3(lastSnakeObject.transform.position.x, lastSnakeObject.transform.position.y, lastSnakeObject.transform.position.z - 5.0f);
 
             // создаем куб хвоста
             GameObject tailObj = Instantiate(tailPrefab, nextTailPos, Quaternion.identity);
             Tail tail = tailObj.GetComponent<Tail>();
-            
+
             // ориентация хвоста как ориентация хозяина
             tailObj.transform.rotation = transform.rotation;
 
             // элемент хвоста должен следовать за хозяином, поэтому передаем ему ссылку на его
-            tail.target = current.transform;
+            tail.target = lastSnakeObject.transform;
 
             // дистанция между элементами хвоста - 2 единицы
             tail.targetDistance = 5f;
-            
-            //удаляем с хвоста коллайдер, так как он не нужен
-            //Destroy(tail.collider);
-            //Destroy(tail.GetComponent<Collider>());
-            
+
             // следующим хозяином будет новосозданный элемент хвоста
-            current = tailObj.transform;
+            lastSnakeObject = tailObj.transform;
+
+            tailCreated = true;
         }
+        else
+        {
+            // помещаем "хвост" за "хозяином"
+            Vector3 nextTailPos = new Vector3(lastSnakeObject.transform.position.x, lastSnakeObject.transform.position.y, lastSnakeObject.transform.position.z - 5.0f);
+
+            // создаем куб хвоста
+            GameObject tailObj = Instantiate(tailPrefab, nextTailPos, Quaternion.identity);
+            Tail tail = tailObj.GetComponent<Tail>();
+
+            // ориентация хвоста как ориентация хозяина
+            tailObj.transform.rotation = transform.rotation;
+
+            // элемент хвоста должен следовать за хозяином, поэтому передаем ему ссылку на его
+            tail.target = lastSnakeObject.transform;
+
+            // дистанция между элементами хвоста - 2 единицы
+            tail.targetDistance = 5f;
+
+            // следующим хозяином будет новосозданный элемент хвоста
+            lastSnakeObject = tailObj.transform;
+        }
+        
+        //удаляем с хвоста коллайдер, так как он не нужен
+        //Destroy(tail.collider);
+        //Destroy(tail.GetComponent<Collider>());
+
+        
+
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    // помещаем "хвост" за "хозяином"
+        //    Vector3 nextTailPos = new Vector3(current.transform.position.x, current.transform.position.y, current.transform.position.z - 5.0f);
+
+        //    // создаем куб хвоста
+        //    GameObject tailObj = Instantiate(tailPrefab, nextTailPos, Quaternion.identity);
+        //    Tail tail = tailObj.GetComponent<Tail>();
+
+        //    // ориентация хвоста как ориентация хозяина
+        //    tailObj.transform.rotation = transform.rotation;
+
+        //    // элемент хвоста должен следовать за хозяином, поэтому передаем ему ссылку на его
+        //    tail.target = current.transform;
+
+        //    // дистанция между элементами хвоста - 2 единицы
+        //    tail.targetDistance = 5f;
+
+        //    //удаляем с хвоста коллайдер, так как он не нужен
+        //    //Destroy(tail.collider);
+        //    //Destroy(tail.GetComponent<Collider>());
+
+        //    // следующим хозяином будет новосозданный элемент хвоста
+        //    current = tailObj.transform;
+        //}
     }
 
     private void OnTriggerEnter(Collider target)
@@ -186,6 +265,12 @@ public class Player : MonoBehaviour
         if(target.tag == "Cell")
         {
             //Debug.Log(target.transform.name);
+        }
+        if (target.tag == "Food")
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<Game>().points += 1;
+            createTail = true;
+            Destroy(target.gameObject);
         }
     }
 
