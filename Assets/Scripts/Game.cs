@@ -58,7 +58,6 @@ public class Game : MonoBehaviour
     public void Update()
     {
         ShowScore();
-
         ShowFPS();
     }
 

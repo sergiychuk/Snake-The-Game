@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9222089951711053113}
   - component: {fileID: 9222089951711053118}
   - component: {fileID: 5727083710784029347}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tail_Cube
   m_TagString: Tail
   m_Icon: {fileID: 0}

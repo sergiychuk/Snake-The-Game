@@ -70,7 +70,6 @@
     <Compile Include="Assets\Scripts\LoadLevelByTimer.cs" />
     <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\SnakeManager.cs" />
     <Compile Include="Assets\Scripts\Tail.cs" />
     <Reference Include="UnityEngine">
       <HintPath>E:/Programs/Unity3D/Editor/2019.4.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

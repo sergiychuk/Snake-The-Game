@@ -6,13 +6,13 @@ public class Player : MonoBehaviour
     // скорость перемещения - 7.5 единиц в секунду по умолчанию в редакторе можно поменять
     [SerializeField]
     [Tooltip("Скорость перемещения головы")]
-    private float speed = 7.5f;
+    private float speed = 8.0f;
 
     [Space(30)]
 
     [SerializeField]
     [Tooltip("Создать хвост при первой загрузке?")]
-    private bool createTail = true;
+    private bool createTail = false;
 
     [SerializeField]
     [Tooltip("Префаб хвоста")]
@@ -20,21 +20,24 @@ public class Player : MonoBehaviour
 
     [Space(30)]
 
-
     [SerializeField]
-    [Tooltip("Префаб хвоста")]
-    private Vector3 nextMovePosition;
+    [Tooltip("Направление движения сменилось?")]
+    private int ChangeMoveDir = 0;
 
-
-    /*------------
-    1 - rotY: 0
-    2 - rotY: 90
-    3 - rotY: 180;
-    4 - rotY: 270;
-    ------------*/
     //[SerializeField]
-    //[Tooltip("Направление движения(1-4)")]
-    //private int moveSideDir = 1;
+    //[Tooltip("Голова змеи перемещается сейчас?")]
+    private bool headIsMoving = false;
+
+    //[SerializeField]
+    //[Tooltip("Голова змеи переместилась в след точку движения?")]
+    private bool headIsMoved = true;
+
+    [Space(30)]
+
+    //[SerializeField]
+    //[Tooltip("Следующая точка куда двигаться")]
+    private Vector3 targetMovePosition;
+
 
     public void Start()
     {
@@ -48,50 +51,101 @@ public class Player : MonoBehaviour
     {
         InputControlls();
 
-        //Узнаем следующую позицию куда двигать
-        nextMovePosition = GetNextMovePosition(transform.position);
+        //Узнаем следующую позицию куда двигать, если стоим на точке и не двигаемся
+        if(headIsMoved && !headIsMoving)
+        {
+            if (ChangeMoveDir == 1)
+            {
+                ChangeMoveDir = 0;
+                ChangeHeadRotation(90);
+            }
+            if (ChangeMoveDir == -1)
+            {
+                ChangeMoveDir = 0;
+                ChangeHeadRotation(-90);
+            }
 
-        // Передвижение головы
-        //transform.Translate(Vector3.forward * Time.deltaTime * speed);
-        
+            targetMovePosition = GetNextMovePosition(transform.position);
 
+            headIsMoving = true;
+            headIsMoved = false;
+        }
+        else
+        {
+            // Безграничный экран с переносом головы на противоположную сторону
+            //if (targetMovePosition.z > 47.5f)
+            //{
+            //    Vector3 newPos = new Vector3(targetMovePosition.x, targetMovePosition.y, -47.5f);
+            //    transform.position = newPos;
+            //    targetMovePosition = GetNextMovePosition(transform.position);
+            //}
+            //if (targetMovePosition.z < -47.5f)
+            //{
+            //    Vector3 newPos = new Vector3(targetMovePosition.x, targetMovePosition.y, 47.5f);
+            //    transform.position = newPos;
+            //    targetMovePosition = GetNextMovePosition(transform.position);
+            //}
+            //if (transform.position.x > 47.5f)
+            //{
+            //    Vector3 newPos = new Vector3(-47.5f, targetMovePosition.y, targetMovePosition.z);
+            //    transform.position = newPos;
+            //    targetMovePosition = GetNextMovePosition(transform.position);
+            //}
+            //if (targetMovePosition.x < -53.5f)
+            //{
+            //    Vector3 newPos = new Vector3(47.5f, targetMovePosition.y, targetMovePosition.z);
+            //    transform.position = newPos;
+            //    targetMovePosition = GetNextMovePosition(transform.position);
+            //}
+
+            // Перемещаем голову змеи
+            transform.position = Vector3.MoveTowards(transform.position, targetMovePosition, Time.deltaTime * speed);
+
+            // Если голова змеи попала на конечную точку движения
+            if (Vector3.Distance(transform.position, targetMovePosition) < 0.01f)
+            {
+                // Свою позицию прировнять к конечной позиции
+                transform.position = targetMovePosition;
+
+                headIsMoved = true;
+                headIsMoving = false;
+            }
+        }
     }
 
     // Функция управления с клавиатуры
     public void InputControlls()
     {
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A))
         {
-            Debug.Log("LEFT");
+            //Debug.Log("LEFT");
+            ChangeMoveDir = -1;
         }
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
         {
-            Debug.Log("RIGHT");
+            //Debug.Log("RIGHT");
+            ChangeMoveDir = 1;
         }
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
         {
-            Debug.Log("UP");
+            //Debug.Log("UP");
         }
-        if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+        if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S))
         {
             Debug.Log("Current pos: " + transform.position);
-            Debug.Log("Next move pos: " + nextMovePosition);
+            Debug.Log("Next move pos: " + targetMovePosition);
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            MoveSnakeHeadToNextPosition(nextMovePosition);
-            //if (speed != 0)
-            //{
-            //    speed = 0;
-            //}
-            //else
-            //{
-            //    speed = 7.5f;
-            //}
+            
         }
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKeyUp(KeyCode.R))
         {
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            transform.position = new Vector3(2.5f, 1.0f, -27.5f);
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0.0f, transform.eulerAngles.z);
+            GetNextMovePosition(transform.position);
+            headIsMoved = true;
+            headIsMoving = false;
         }
     }
 
@@ -141,15 +195,16 @@ public class Player : MonoBehaviour
         return currentPos + (transform.forward * 5.0f);
     }
 
-    //Функция движения головы
-    public void MoveSnakeHeadToNextPosition(Vector3 nextPos)
+    // Сменить угол поворота головы змеи
+    public void ChangeHeadRotation(float addRotAngle)
     {
-        while(transform.position != nextPos)
-        {
-            transform.Translate(Vector3.forward * Time.deltaTime * speed);
-        }
+        float currentEulerAngleY = transform.eulerAngles.y;
+        float newEulerAngleY = currentEulerAngleY + addRotAngle;
+
+        // Меняем угол поворота направления движения головы
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, newEulerAngleY, transform.eulerAngles.z);
     }
 
-
+    // Pass
 
 }

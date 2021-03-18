@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7636438527390903677}
   - component: {fileID: 7636438527390903559}
   - component: {fileID: 7636438527390903676}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head_Cube
   m_TagString: Head
   m_Icon: {fileID: 0}
@@ -146,4 +146,7 @@ MonoBehaviour:
   createTail: 0
   tailPrefab: {fileID: 9222089951711053119, guid: 49457c696ebbf054694de413ad5f3276,
     type: 3}
-  nextMovePosition: {x: 0, y: 0, z: 0}
+  ChangeMoveDir: 0
+  headIsMoving: 0
+  headIsMoved: 1
+  targetMovePosition: {x: 0, y: 0, z: 0}

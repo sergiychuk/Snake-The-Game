@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1046152034199633464}
   - component: {fileID: 1046152034199633465}
   - component: {fileID: 397994360}
-  m_Layer: 0
-  m_Name: Cell
+  m_Layer: 10
+  m_Name: FlorCell
   m_TagString: Cell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
